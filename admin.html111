@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - FAHOOD</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; direction: rtl; }
+        .login-box, .admin-panel { max-width: 600px; margin: 50px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .hidden { display: none; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { background: #000; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #333; }
+        h2, h3 { text-align: center; }
+        .file-label { display: block; background: #e0e0e0; padding: 10px; text-align: center; border-radius: 4px; cursor: pointer; margin: 10px 0; }
+        .file-label:hover { background: #d0d0d0; }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginSection" class="login-box">
+        <h2>دخول المشرف (Admin) - FAHOOD</h2>
+        <input type="password" id="adminPassword" placeholder="اكتب كلمة المرور (123)">
+        <button onclick="checkLogin()">دخول لوحة التحكم</button>
+    </div>
+
+    <!-- لوحة التحكم وإضافة المنتجات -->
+    <div id="adminPanel" class="admin-panel hidden">
+        <h2>لوحة تحكم متجر FAHOOD</h2>
+        <hr>
+        <h3>إضافة منتج جديد برفع الصورة من الجهاز</h3>
+        
+        <input type="text" id="prodName" placeholder="اسم المنتج (مثال: جاكيت رجالي)">
+        <input type="number" id="prodPrice" placeholder="السعر (بالجنيه)">
+        
+        <!-- زر اختيار صورة من الجهاز مباشرة -->
+        <label class="file-label">
+            اختر صورة المنتج من جهازك 
+            <input type="file" id="prodImageFile" accept="image/*" style="display: none;">
+        </label>
+        <span id="fileNameDisplay" style="font-size: 14px; color: #666;">لم يتم اختيار صورة بعد</span>
+
+        <button onclick="addProduct()">حفظ المنتج مع صورته</button>
+        <button onclick="logout()" style="background: #d9534f; margin-top: 20px;">تسجيل الخروج</button>
+    </div>
+
+    <script>
+        const MY_SECRET_PASSWORD = "123";
+
+        function checkLogin() {
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === MY_SECRET_PASSWORD) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function logout() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        // عرض اسم الصورة المختارة للمستخدم
+        const fileInput = document.getElementById('prodImageFile');
+        fileInput.addEventListener('change', function() {
+            if(this.files && this.files[0]) {
+                document.getElementById('fileNameDisplay').innerText = "تم اختيار: " + this.files[0].name;
+            }
+        });
+
+        function addProduct() {
+            const name = document.getElementById('prodName').value;
+            const price = document.getElementById('prodPrice').value;
+            const imageFile = fileInput.files[0];
+
+            if(!name || !price) {
+                alert('الرجاء إدخال اسم المنتج والسعر!');
+                return;
+            }
+
+            if(!imageFile) {
+                alert('الرجاء اختيار صورة المنتج من جهازك!');
+                return;
+            }
+
+            // قراءة الصورة وتحويلها لتظهر محلياً أو يتم حفظها لاحقاً
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageDataUrl = e.target.result;
+                console.log("صورة المنتج:", imageDataUrl);
+                
+                alert('تم حفظ المنتج ورفع الصورة بنجاح!');
+                
+                // تفريغ الحقول بعد الإضافة
+                document.getElementById('prodName').value = '';
+                document.getElementById('prodPrice').value = '';
+                fileInput.value = '';
+                document.getElementById('fileNameDisplay').innerText = 'لم يتم اختيار صورة بعد';
+            };
+            reader.readAsDataURL(imageFile);
+        }
+    </script>
+
+</body>
+</html>
