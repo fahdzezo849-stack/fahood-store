@@ -427,8 +427,13 @@
                 id: '#' + (100 + orders.length + 1),
                 customer: document.getElementById('customerName').value,
                 item: `${currentProduct.name} (لون: ${document.getElementById('customerColor').value})`,
-                details: `${document.getElementById('customerAddress').value} - ${document.getElementById('customerPhone').value}`
-            };
+                details: `${document.getElementById('customerAddress').value} - ${document.getElementById('customerPhone').value}`,
+                 paymentMethod: document.querySelector('input[name="payment_method"]:checked') ? document.querySelector('input[name="payment_method"]:checked').value : 'الدفع عند الاستلام',
+        screenshot: document.getElementById('transfer-screenshot') && document.getElementById('transfer-screenshot').files[0] ? document.getElementById('transfer-screenshot').files[0].name : 'لا يوجد'
+
+
+
+ };
 
             orders.push(newOrder);
             localStorage.setItem('fahood_orders', JSON.stringify(orders));
