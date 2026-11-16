@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - FAHOOD</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; direction: rtl; }
+        .login-box, .admin-panel { max-width: 700px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .hidden { display: none; }
+        input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; font-size: 15px; }
+        button { background: #000; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #333; }
+        h2, h3 { text-align: center; color: #333; }
+        .file-box { border: 2px dashed #ccc; padding: 12px; text-align: center; border-radius: 4px; background: #fafafa; cursor: pointer; margin: 8px 0; }
+        .preview-img { max-width: 80px; max-height: 80px; display: block; margin: 5px auto; border-radius: 4px; }
+        .stats-card { background: #e9ecef; padding: 15px; border-radius: 6px; text-align: center; margin-bottom: 20px; font-weight: bold; font-size: 18px; }
+        .order-item { background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin-bottom: 10px; border-radius: 4px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginSection" class="login-box">
+        <h2>دخول المشرف - FAHOOD</h2>
+        <input type="password" id="adminPassword" placeholder="كلمة المرور (123)">
+        <button onclick="checkLogin()">دخول</button>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="adminPanel" class="admin-panel hidden">
+        <h2>لوحة تحكم وإدارة متجر FAHOOD</h2>
+        <hr>
+
+        <!-- إحصائيات المشاهدات -->
+        <div class="stats-card">
+            📊 إجمالي مشاهدات وزوار المتجر: <span id="adminTotalViews">0</span> زائر
+        </div>
+
+        <h3>إضافة منتج جديد للمتجر</h3>
+        <input type="text" id="prodName" placeholder="اسم المنتج">
+        <input type="number" id="prodPrice" placeholder="السعر (بالجنيه)">
+        <div class="file-box" onclick="document.getElementById('prodImageFile').click()">
+            <span id="fileText">اضغط لاختيار صورة المنتج من الجهاز</span>
+            <input type="file" id="prodImageFile" accept="image/*" style="display: none;" onchange="previewImage(this)">
+        </div>
+        <img id="imagePreview" class="preview-img hidden" alt="معاينة">
+        <button onclick="addProduct()">حفظ المنتج وعرضه بالمتجر</button>
+
+        <hr style="margin: 30px 0;">
+
+        <h3>📦 طلبات العملاء الواردة عبر المتجر</h3>
+        <div id="ordersContainer">
+            <!-- الطلبات هتظهر هنا تلقائياً -->
+        </div>
+        <button onclick="clearOrders()" style="background: #dc3545; margin-top: 10px;">مسح جميع الطلبات</button>
+
+        <button onclick="logout()" style="background: #6c757d; margin-top: 20px;">تسجيل الخروج</button>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD = "123";
+
+        function checkLogin() {
+            const pass = document.getElementById('adminPassword').value;
+            if (pass === CORRECT_PASSWORD) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                loadAdminData();
+            } else {
+                alert('كلمة المرور غير صحيحة! (123)');
+            }
+        }
+
+        function logout() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function loadAdminData() {
+            // تحميل عدد المشاهدات
+            const views = localStorage.getItem('fahood_views') || 0;
+            document.getElementById('adminTotalViews').innerText = views;
+
+            // تحميل الطلبات الواردة
+            const ordersContainer = document.getElementById('ordersContainer');
+            const orders = JSON.parse(localStorage.getItem('fahood_orders')) || [];
+
+            if (orders.length === 0) {
+                ordersContainer.innerHTML = "<p style='text-align:center; color:#666;'>لا توجد طلبات جديدة حتى الآن.</p>";
+                return;
+            }
+
+            ordersContainer.innerHTML = "";
+            // عرض الطلبات من الأحدث للأقدم
+            orders.reverse().forEach(ord => {
+                const item = document.createElement('div');
+                item.className = 'order-item';
+                item.innerHTML = `
+                    <strong>المنتج:</strong> ${ord.name || ord.productName} (${ord.price} جنيه)<br>
+                    <strong>اسم العميل:</strong> ${ord.customerName}<br>
+                    <strong>رقم الهاتف:</strong> <a href="tel:${ord.customerPhone}">${ord.customerPhone}</a><br>
+                    <strong>وقت الطلب:</strong> ${ord.date}
+                `;
+                ordersContainer.appendChild(item);
+            });
+        }
+
+        let base64Image = "";
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                document.getElementById('fileText').innerText = "تم اختيار: " + file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    base64Image = e.target.result;
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = base64Image;
+                    preview.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addProduct() {
+            const name = document.getElementById('prodName').value.trim();
+            const price = document.getElementById('prodPrice').value.trim();
+            if (!name || !price || !base64Image) {
+                alert('الرجاء كتابة اسم المنتج، السعر، واختيار الصورة!');
+                return;
+            }
+            let products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+            products.push({ id: Date.now(), name, price, image: base64Image });
+            localStorage.setItem('fahood_products', JSON.stringify(products));
+            
+            alert('تم إضافة المنتج بنجاح إلى المتجر!');
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodImageFile').value = '';
+            document.getElementById('fileText').innerText = 'اضغط لاختيار صورة المنتج من الجهاز';
+            document.getElementById('imagePreview').classList.add('hidden');
+            base64Image = "";
+        }
+
+        function clearOrders() {
+            if (confirm("هل أنت متأكد من مسح جميع سجلات الطلبات؟")) {
+                localStorage.removeItem('fahood_orders');
+                loadAdminData();
+            }
+        }
+    </script>
+</body>
+</html>
