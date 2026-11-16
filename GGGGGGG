@@ -59,7 +59,7 @@
     </div>
 
     <script>
-        const CORRECT_PASSWORD = "123";
+        const CORRECT_PASSWORD = "1111";
 
         function checkLogin() {
             const pass = document.getElementById('adminPassword').value;
