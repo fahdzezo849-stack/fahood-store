@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم الشاملة - متجر FAHOOD</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+        header h1 {
+            color: #1a1a1a;
+            font-size: 28px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #111;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .form-section, .table-section {
+            margin-bottom: 30px;
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        h2 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #222;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #444;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        button.btn-main {
+            width: 100%;
+            padding: 12px;
+            background-color: #111;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button.btn-main:hover {
+            background-color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #fff;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: right;
+            font-size: 14px;
+        }
+        th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+        .product-img-thumb {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>لوحة تحكم متجر FAHOOD</h1>
+        <p>التحكم الكامل في المنتجات، الألوان، الأسعار، ومتابعة الطلبات والزوار</p>
+    </header>
+
+    <!-- إحصائيات الزوار والطلبات -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3 id="visitorCount">0</h3>
+            <p>إجمالي الزيارات اليوم</p>
+        </div>
+        <div class="stat-card">
+            <h3 id="orderCount">0</h3>
+            <p>طلبات اليوم الواردة</p>
+        </div>
+    </div>
+
+    <!-- قسم إضافة منتج جديد مع التحكم بالصور والألوان -->
+    <div class="form-section">
+        <h2>إضافة منتج جديد للمتجر</h2>
+        <form id="productForm">
+            <div class="form-group">
+                <label>اسم المنتج:</label>
+                <input type="text" id="productName" placeholder="مثال: ساعة يد كلاسيك" required>
+            </div>
+
+            <div class="form-group">
+                <label>السعر (بالجنيه):</label>
+                <input type="number" id="productPrice" placeholder="مثال: 350" required>
+            </div>
+
+            <div class="form-group">
+                <label>الألوان المتاحة (افصل بينها بفواصل):</label>
+                <input type="text" id="productColors" placeholder="مثال: أسود، بني، فضي" required>
+            </div>
+
+            <div class="form-group">
+                <label>رابط صورة المنتج (أنت من تختارها):</label>
+                <input type="url" id="productImage" placeholder="https://example.com/image.jpg" required>
+            </div>
+
+            <button type="submit" class="btn-main">إضافة ونشر المنتج في المتجر</button>
+        </form>
+    </div>
+
+    <!-- جدول إدارة المنتجات -->
+    <div class="table-section">
+        <h2>المنتجات المعروضة حالياً</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>الصورة</th>
+                    <th>الاسم</th>
+                    <th>السعر</th>
+                    <th>الألوان</th>
+                    <th>إجراء</th>
+                </tr>
+            </thead>
+            <tbody id="productList">
+                <!-- المنتجات تظهر هنا -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- جدول متابعة الطلبات الواردة للموقع -->
+    <div class="table-section">
+        <h2>طلبات العملاء الواردة بالموقع</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>رقم الطلب</th>
+                    <th>اسم العميل</th>
+                    <th>المنتج المطلوب</th>
+                    <th>العنوان / الهاتف</th>
+                    <th>الحالة</th>
+                </tr>
+            </thead>
+            <tbody id="ordersList">
+                <!-- الطلبات تظهر هنا تلقائياً -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // حساب الزوار (زيادة زائر مع كل فتح للصفحة)
+    let visitors = localStorage.getItem('fahood_visitors') ? parseInt(localStorage.getItem('fahood_visitors')) : 120;
+    visitors++;
+    localStorage.setItem('fahood_visitors', visitors);
+    document.getElementById('visitorCount').innerText = visitors;
+
+    // إدارة المنتجات
+    const form = document.getElementById('productForm');
+    const productList = document.getElementById('productList');
+    let products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+
+    function renderProducts() {
+        productList.innerHTML = '';
+        if (products.length === 0) {
+            productList.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #777;">لا توجد منتجات مضافة حالياً.</td></tr>';
+            return;
+        }
+        products.forEach((product, index) => {
+            productList.innerHTML += `
+                <tr>
+                    <td><img src="${product.image}" class="product-img-thumb" alt="صورة"></td>
+                    <td>${product.name}</td>
+                    <td>${product.price} جنيه</td>
+                    <td>${product.colors}</td>
+                    <td><button class="btn-delete" onclick="deleteProduct(${index})">حذف</button></td>
+                </tr>
+            `;
+        });
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newProduct = {
+            name: document.getElementById('productName').value,
+            price: document.getElementById('productPrice').value,
+            colors: document.getElementById('productColors').value,
+            image: document.getElementById('productImage').value
+        };
+
+        products.push(newProduct);
+        localStorage.setItem('fahood_products', JSON.stringify(products));
+        renderProducts();
+        form.reset();
+        alert('تم إضافة المنتج بنجاح وتحديث المتجر!');
+    });
+
+    function deleteProduct(index) {
+        products.splice(index, 1);
+        localStorage.setItem('fahood_products', JSON.stringify(products));
+        renderProducts();
+    }
+
+    // إدارة الطلبات الواردة
+    const ordersList = document.getElementById('ordersList');
+    let orders = JSON.parse(localStorage.getItem('fahood_orders')) || [
+        { id: '#101', customer: 'أحمد محمد', item: 'ساعة يد كلاسيك', details: 'القاهرة - 010xxxxxxxx' },
+        { id: '#102', customer: 'محمود علي', item: 'محفظة جلد طبيعي', details: 'الإسكندرية - 011xxxxxxxx' }
+    ];
+
+    document.getElementById('orderCount').innerText = orders.length;
+
+    function renderOrders() {
+        ordersList.innerHTML = '';
+        orders.forEach(order => {
+            ordersList.innerHTML += `
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.item}</td>
+                    <td>${order.details}</td>
+                    <td><span style="color: green; font-weight: bold;">جديد</span></td>
+                </tr>
+            `;
+        });
+    }
+
+    renderProducts();
+    renderOrders();
+</script>
+
+</body>
+</html>
