@@ -316,4 +316,28 @@
 </script>
 
 </body>
+    <script>
+function saveShippingRate() {
+    const gov = document.getElementById('shippingGov').value.trim();
+    const city = document.getElementById('shippingCity').value.trim();
+    const cost = document.getElementById('shippingCost').value;
+
+    if (!gov || !city || !cost) {
+        alert('من فضلك املأ جميع بيانات الشحن');
+        return;
+    }
+
+    let shippingRates = JSON.parse(localStorage.getItem('shippingRates')) || {};
+    if (!shippingRates[gov]) shippingRates[gov] = {};
+    shippingRates[gov][city] = cost;
+    
+    localStorage.setItem('shippingRates', JSON.stringify(shippingRates));
+    alert('تم حفظ سعر الشحن بنجاح!');
+    
+    document.getElementById('shippingGov').value = '';
+    document.getElementById('shippingCity').value = '';
+    document.getElementById('shippingCost').value = '';
+}
+</script>
+
 </html>
