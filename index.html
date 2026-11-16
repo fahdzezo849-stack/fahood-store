@@ -292,7 +292,7 @@
 </head>
 <body>
 
-    <div class="top-announcement">فخمتك هتبدا من هنا</div>
+    <div class="top-announcement">فهووود بيحبكم </div>
 
     <header>
         <div class="header-top">
@@ -353,6 +353,18 @@
                     <label>العنوان بالتفصيل:</label>
                     <input type="text" id="customerAddress" placeholder="المحافظة - المنطقة - اسم الشارع" required>
                 </div>
+                <div style="margin-bottom: 15px; text-align: right;">    
+        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">طريقة الدفع:</label>
+        <div style="display: flex; gap: 15px; justify-content: right; margin-bottom: 10px;">
+            <label><input type="radio" name="payment_method" value="فودافون كاش" checked> فودافون كاش</label>
+            <label><input type="radio" name="payment_method" value="إنستا باي"> إنستا باي</label>
+            <label><input type="radio" name="payment_method" value="الدفع عند الاستلام"> الدفع عند الاستلام</label>
+        </div>
+        
+        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">صورة إيصال التحويل (إن وجد):</label>
+        <input type="file" id="transfer-screenshot" accept="image/*" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+
                 <button type="submit" class="btn-order">تأكيد الطلب الآن</button>
             </form>
         </div>
