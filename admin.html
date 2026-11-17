@@ -162,6 +162,10 @@
                 <label>السعر (بالجنيه):</label>
                 <input type="number" id="productPrice" placeholder="مثال: 350" required>
             </div>
+            <div class="form-group">
+        <label>السعر قبل الخصم (اختياري):</label>
+        <input type="number" id="oldProductPrice" placeholder="مثال: 450">
+    </div>
 
             <div class="form-group">
                 <label>الألوان المتاحة (افصل بينها بفواصل):</label>
@@ -179,6 +183,13 @@
             <button type="submit" class="btn-main">إضافة ونشر المنتج في المتجر</button>
         </form>
     </div>
+    <script>
+document.getElementById('productForm').addEventListener('submit', function(e) {
+    // باقي كود حفظ المنتج القديم هنا...
+    const oldPrice = document.getElementById('oldProductPrice').value;
+    // التأكد من حفظ السعر القديم مع باقي بيانات المنتج
+});
+</script>
 
     <!-- جدول إدارة المنتجات -->
     <div class="table-section">
@@ -282,7 +293,7 @@
     document.getElementById('orderCount').innerText = orders.length;
 
     function renderOrders() {
-        ordersList.innerHTML = '';
+--        ordersList.innerHTML = '';
         orders.forEach(order => {
             ordersList.innerHTML += `
                 <tr>
