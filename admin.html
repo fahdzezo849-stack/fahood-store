@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الشاملة - متجر FAHOOD</title>
+    <title>لوحة التحكم | فهد ستور</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,387 +12,394 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #f4f6f9;
-            color: #333;
+            background-color: #0b0b0b;
+            color: #e0e0e0;
             padding: 20px;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        header {
+        h1 {
             text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 15px;
-        }
-        header h1 {
-            color: #1a1a1a;
-            font-size: 28px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: #111;
             color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .stat-card h3 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        .form-section, .table-section {
             margin-bottom: 30px;
-            background: #fafafa;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #eee;
+            font-size: 28px;
+            letter-spacing: 2px;
         }
-        h2 {
-            margin-bottom: 15px;
+        .section-box {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .section-box h2 {
+            color: #e5e5e5;
             font-size: 20px;
-            color: #222;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
         }
         .form-group {
             margin-bottom: 15px;
         }
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 6px;
-            font-weight: bold;
-            color: #444;
+            color: #aaa;
+            font-size: 14px;
         }
-        input, select {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-        button.btn-main {
-            width: 100%;
-            padding: 12px;
-            background-color: #111;
+            padding: 11px;
+            background: #1a1a1a;
+            border: 1px solid #333;
             color: #fff;
-            border: none;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 14px;
+        }
+        .btn {
+            background: #e5e5e5;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
             font-weight: bold;
+            border-radius: 6px;
             cursor: pointer;
             transition: 0.3s;
+            font-size: 14px;
         }
-        button.btn-main:hover {
-            background-color: #333;
+        .btn:hover {
+            background: #fff;
         }
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        /* شبكة المنتجات المعروضة */
+        .products-admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .admin-product-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .admin-product-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        /* جدول الطلبات والشحن */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            background: #fff;
-        }
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: right;
             font-size: 14px;
         }
+        th, td {
+            border: 1px solid #222;
+            padding: 12px;
+            text-align: center;
+        }
         th {
-            background-color: #f1f1f1;
-            font-weight: bold;
-        }
-        .btn-delete {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn-delete:hover {
-            background-color: #c0392b;
-        }
-        .product-img-thumb {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 4px;
+            background: #1a1a1a;
+            color: #e5e5e5;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>لوحة تحكم متجر FAHOOD</h1>
-        <p>التحكم الكامل في المنتجات، الألوان، الأسعار، ومتابعة الطلبات والزوار</p>
-    </header>
+    <div class="container">
+        <h1>إدارة المتجر | Admin Panel</h1>
 
-    <!-- إحصائيات الزوار والطلبات -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3 id="visitorCount">0</h3>
-            <p>إجمالي الزيارات اليوم</p>
+        <!-- 1. إضافة منتج جديد (مطابق لرسمة الكشكول) -->
+        <div class="section-box">
+            <h2>إضافة منتج جديد</h2>
+            <form id="addProductForm" onsubmit="saveProduct(event)">
+                <div class="form-group">
+                    <label>اسم المنتج:</label>
+                    <input type="text" id="prodName" required placeholder="أدخل اسم المنتج...">
+                </div>
+                <div class="form-group">
+                    <label>السعر بالجنيه (ج.م):</label>
+                    <input type="number" id="prodPrice" required placeholder="مثال: 350">
+                </div>
+                <div class="form-group">
+                    <label>القسم:</label>
+                    <select id="prodCategory">
+                        <option value="رجال">رجال</option>
+                        <option value="نساء">نساء</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ألوان المنتج (مفصولة بفاصلة ,):</label>
+                    <input type="text" id="prodColors" placeholder="أسود, فضي, كحلي">
+                </div>
+                <div class="form-group">
+                    <label>صورة المنتج (يمكنك تحديد أكثر من صورة):</label>
+                    <input type="file" id="prodImages" accept="image/*" multiple required>
+                </div>
+                <button type="submit" class="btn">إضافة المنتج للمتجر</button>
+            </form>
         </div>
-        <div class="stat-card">
-            <h3 id="orderCount">0</h3>
-            <p>طلبات اليوم الواردة</p>
+
+        <!-- 2. المنتجات المعروضة حالياً (تعديل السعر والحذف) -->
+        <div class="section-box">
+            <h2>المنتجات المعروضة حالياً</h2>
+            <div class="products-admin-grid" id="adminProductsGrid">
+                <!-- المنتجات هتظهر هنا كاردات -->
+            </div>
         </div>
-    </div>
 
-    <!-- قسم إضافة منتج جديد مع التحكم بالصور والألوان -->
-    <div class="form-section">
-        <h2>إضافة منتج جديد للمتجر</h2>
-        <form id="productForm">
+        <!-- 3. إدارة أسعار الشحن (المحافظة، المركز/المدينة، رسوم الشحن) -->
+        <div class="section-box">
+            <h2>إدارة أسعار الشحن</h2>
             <div class="form-group">
-                <label>اسم المنتج:</label>
-                <input type="text" id="productName" placeholder="مثال: ساعة يد كلاسيك" required>
-            </div>
-
-            <div class="form-group">
-                <label>السعر (بالجنيه):</label>
-                <input type="number" id="productPrice" placeholder="مثال: 350" required>
+                <label>المحافظة:</label>
+                <input type="text" id="shipGov" placeholder="مثال: الشرقية">
             </div>
             <div class="form-group">
-        <label>السعر قبل الخصم (اختياري):</label>
-        <input type="number" id="oldProductPrice" placeholder="مثال: 450">
-    </div>
-
-            <div class="form-group">
-                <label>الألوان المتاحة (افصل بينها بفواصل):</label>
-                <input type="text" id="productColors" placeholder="مثال: أسود، بني، فضي" required>
+                <label>المركز / المدينة:</label>
+                <input type="text" id="shipCity" placeholder="مثال: الزقازيق">
             </div>
-
             <div class="form-group">
-    <label>صور المنتج (اختر عدة صور للأشكال المختلفة):</label>
-    <input type="file" id="productImages" accept="image/*" multiple required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-</div>
+                <label>رسوم الشحن (ج.م):</label>
+                <input type="number" id="shipCost" placeholder="مثال: 50">
+            </div>
+            <button type="button" class="btn" onclick="saveShipping()">حفظ سعر الشحن</button>
+            
+            <table style="margin-top: 20px;" id="shippingTable">
+                <thead>
+                    <tr>
+                        <th>المحافظة</th>
+                        <th>المركز / المدينة</th>
+                        <th>رسوم الشحن</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
 
+        <!-- 4. طلبات العملاء الواردة بالموقع -->
+        <div class="section-box">
+            <h2>طلبات العملاء الواردة بالموقع</h2>
+            <div style="overflow-x: auto;">
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب / التاريخ</th>
+                            <th>اسم العميل</th>
+                            <th>المنتج المطلوب</th>
+                            <th>العنوان</th>
+                            <th>الهاتف والواتساب</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
 
-</div>
-
-            <button type="submit" class="btn-main">إضافة ونشر المنتج في المتجر</button>
-        </form>
-    </div>
-<script>
-document.getElementById('productForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const name = document.getElementById('productName').value;
-    const price = document.getElementById('productPrice').value;
-    const oldPrice = document.getElementById('oldProductPrice').value;
-    const colors = document.getElementById('productColors').value;
-    const imageFiles = document.getElementById('productImages').files;
-
-    if (imageFiles.length === 0) {
-        alert('الرجاء اختيار صورة واحدة على الأقل للمنتج!');
-        return;
-    }
-
-    let imagesData = [];
-    let processedCount = 0;
-
-    for (let i = 0; i < imageFiles.length; i++) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            imagesData.push(event.target.result);
-            processedCount++;
-
-            if (processedCount === imageFiles.length) {
-                const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
-                
-                const newProduct = {
-                    name: name,
-                    price: price,
-                    oldPrice: oldPrice,
-                    colors: colors,
-                    images: imagesData,
-                    image: imagesData[0]
-                };
-
-                products.push(newProduct);
-                localStorage.setItem('fahood_products', JSON.stringify(products));
-
-                alert('تم إضافة المنتج بنجاح!');
-                window.location.href = 'index.html';
-            }
-        };
-        reader.readAsDataURL(imageFiles[i]);
-    }
-});
-</script>
-
-
-    <!-- جدول إدارة المنتجات -->
-    <div class="table-section">
-        <h2>المنتجات المعروضة حالياً</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>الصورة</th>
-                    <th>الاسم</th>
-                    <th>السعر</th>
-                    <th>الألوان</th>
-                    <th>إجراء</th>
-                </tr>
-            </thead>
-            <tbody id="productList">
-                <!-- المنتجات تظهر هنا -->
-            </tbody>
-        </table>
     </div>
 
-    <!-- جدول متابعة الطلبات الواردة للموقع -->
-    <div class="table-section">
-        <h2>طلبات العملاء الواردة بالموقع</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>رقم الطلب</th>
-                    <th>اسم العميل</th>
-                    <th>المنتج المطلوب</th>
-                    <th>العنوان / الهاتف</th>
-                    <th>الحالة</th>
-                </tr>
-            </thead>
-            <tbody id="ordersList">
-                <!-- الطلبات تظهر هنا تلقائياً -->
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script>
-    // حساب الزوار (زيادة زائر مع كل فتح للصفحة)
-    let visitors = localStorage.getItem('fahood_visitors') ? parseInt(localStorage.getItem('fahood_visitors')) : 120;
-    visitors++;
-    localStorage.setItem('fahood_visitors', visitors);
-    document.getElementById('visitorCount').innerText = visitors;
-
-    // إدارة المنتجات
-    const form = document.getElementById('productForm');
-    const productList = document.getElementById('productList');
-    let products = JSON.parse(localStorage.getItem('fahood_products')) || [];
-
-    function renderProducts() {
-        productList.innerHTML = '';
-        if (products.length === 0) {
-            productList.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #777;">لا توجد منتجات مضافة حالياً.</td></tr>';
-            return;
-        }
-        products.forEach((product, index) => {
-            productList.innerHTML += `
-                <tr>
-                    <td><img src="${product.image}" class="product-img-thumb" alt="صورة"></td>
-                    <td>${product.name}</td>
-                    <td>${product.price} جنيه</td>
-                    <td>${product.colors}</td>
-                    <td><button class="btn-delete" onclick="deleteProduct(${index})">حذف</button></td>
-                </tr>
-            `;
-        });
-    }
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const newProduct = {
-            name: document.getElementById('productName').value,
-            price: document.getElementById('productPrice').value,
-            colors: document.getElementById('productColors').value,
-            image: document.getElementById('productImage').value
-        };
-
-        products.push(newProduct);
-        localStorage.setItem('fahood_products', JSON.stringify(products));
-        renderProducts();
-        form.reset();
-        alert('تم إضافة المنتج بنجاح وتحديث المتجر!');
-    });
-
-    function deleteProduct(index) {
-        products.splice(index, 1);
-        localStorage.setItem('fahood_products', JSON.stringify(products));
-        renderProducts();
-    }
-
-    // إدارة الطلبات الواردة
-    const ordersList = document.getElementById('ordersList');
-    let orders = JSON.parse(localStorage.getItem('fahood_orders')) || [
-        { id: '#101', customer: 'أحمد محمد', item: 'ساعة يد كلاسيك', details: 'القاهرة - 010xxxxxxxx' },
-        { id: '#102', customer: 'محمود علي', item: 'محفظة جلد طبيعي', details: 'الإسكندرية - 011xxxxxxxx' }
-    ];
-
-    document.getElementById('orderCount').innerText = orders.length;
-
-    function renderOrders() {
---        ordersList.innerHTML = '';
-        orders.forEach(order => {
-            ordersList.innerHTML += `
-                <tr>
-                    <td>${order.id}</td>
-                    <td>${order.customer}</td>
-                    <td>${order.item}</td>
-                    <td>${order.details}</td>
-                    <td><span style="color: green; font-weight: bold;">جديد</span></td>
-                </tr>
-            `;
-        });
-    }
-
-    renderProducts();
-    renderOrders();
-</script>
-
-</body>
     <script>
-function saveShippingRate() {
-    const gov = document.getElementById('shippingGov').value.trim();
-    const city = document.getElementById('shippingCity').value.trim();
-    const cost = document.getElementById('shippingCost').value;
+        // حفظ منتج جديد مع دعم صور متعددة
+        function saveProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('prodName').value;
+            const price = document.getElementById('prodPrice').value;
+            const category = document.getElementById('prodCategory').value;
+            const colors = document.getElementById('prodColors').value;
+            const fileInput = document.getElementById('prodImages');
 
-    if (!gov || !city || !cost) {
-        alert('من فضلك املأ جميع بيانات الشحن');
-        return;
-    }
+            if (fileInput.files.length === 0) {
+                alert('اختر صورة واحدة على الأقل!');
+                return;
+            }
 
-    let shippingRates = JSON.parse(localStorage.getItem('shippingRates')) || {};
-    if (!shippingRates[gov]) shippingRates[gov] = {};
-    shippingRates[gov][city] = cost;
-    
-    localStorage.setItem('shippingRates', JSON.stringify(shippingRates));
-    alert('تم حفظ سعر الشحن بنجاح!');
-    
-    document.getElementById('shippingGov').value = '';
-    document.getElementById('shippingCity').value = '';
-    document.getElementById('shippingCost').value = '';
-}
-</script>
-<!-- قسم تحديد أسعار الشحن -->
-<div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd;">
-    <h3 style="margin-bottom: 10px; color: #333;">إدارة أسعار الشحن</h3>
-    <div class="form-group">
-        <label>المحافظة:</label>
-        <input type="text" id="shippingGov" placeholder="مثال: الشرقية" style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px;">
-    </div>
-    <div class="form-group">
-        <label>المركز / المدينة:</label>
-        <input type="text" id="shippingCity" placeholder="مثال: الزقازيق / ههيا" style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px;">
-    </div>
-    <div class="form-group">
-        <label>رسوم الشحن (بالجنيه):</label>
-        <input type="number" id="shippingCost" placeholder="مثال: 50" style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px;">
-    </div>
-    <button type="button" onclick="saveShippingRate()" style="background: #25d366; color: white; padding: 10px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">حفظ سعر الشحن</button>
-</div>
+            const files = Array.from(fileInput.files);
+            let loaded = 0;
+            let imagesBase64 = [];
 
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    imagesBase64[index] = evt.target.result;
+                    loaded++;
+                    if (loaded === files.length) {
+                        const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+                        products.push({
+                            name: name,
+                            price: price,
+                            category: category,
+                            colors: colors,
+                            images: imagesBase64
+                        });
+                        localStorage.setItem('fahood_products', JSON.stringify(products));
+                        alert('تم إضافة المنتج بنجاح!');
+                        document.getElementById('addProductForm').reset();
+                        loadAdminProducts();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
 
+        // عرض المنتجات في لوحة التحكم مع إمكانية التعديل والحذف
+        function loadAdminProducts() {
+            const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+            const grid = document.getElementById('adminProductsGrid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="color: #777; grid-column: 1/-1; text-align: center;">لا توجد منتجات مضافة حالياً.</p>';
+                return;
+            }
+
+            products.forEach((p, index) => {
+                let mainImg = p.images && p.images.length > 0 ? p.images[0] : p.image;
+                grid.innerHTML += `
+                    <div class="admin-product-card">
+                        <div>
+                            <img src="${mainImg}">
+                            <h3 style="font-size: 15px; margin-bottom: 5px; color: #fff;">${p.name}</h3>
+                            <p style="color: #e5e5e5; font-weight: bold; margin-bottom: 10px;">${p.price} ج.م</p>
+                            <p style="color: #888; font-size: 12px; margin-bottom: 10px;">القسم: ${p.category}</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn" style="flex: 1; padding: 6px; font-size: 12px;" onclick="editPrice(${index})">تعديل السعر</button>
+                            <button class="btn btn-danger" onclick="deleteProduct(${index})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function editPrice(index) {
+            const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+            const newPrice = prompt('أدخل السعر الجديد بالجنيه:', products[index].price);
+            if (newPrice !== null && newPrice.trim() !== '') {
+                products[index].price = newPrice;
+                localStorage.setItem('fahood_products', JSON.stringify(products));
+                loadAdminProducts();
+                alert('تم تحديث السعر بنجاح!');
+            }
+        }
+
+        function deleteProduct(index) {
+            if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+                products.splice(index, 1);
+                localStorage.setItem('fahood_products', JSON.stringify(products));
+                loadAdminProducts();
+            }
+        }
+
+        // حفظ أسعار الشحن
+        function saveShipping() {
+            const gov = document.getElementById('shipGov').value.trim();
+            const city = document.getElementById('shipCity').value.trim();
+            const cost = document.getElementById('shipCost').value.trim();
+
+            if (!gov || !cost) {
+                alert('من فضلك أدخل المحافظة وسعر الشحن على الأقل!');
+                return;
+            }
+
+            const shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            shipping.push({ gov, city: city || 'كل المراكز', cost });
+            localStorage.setItem('fahood_shipping', JSON.stringify(shipping));
+
+            document.getElementById('shipGov').value = '';
+            document.getElementById('shipCity').value = '';
+            document.getElementById('shipCost').value = '';
+            loadShipping();
+            alert('\nتم حفظ سعر الشحن بنجاح!');
+        }
+
+        function loadShipping() {
+            const shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            const tbody = document.querySelector('#shippingTable tbody');
+            tbody.innerHTML = '';
+
+            if (shipping.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="color: #777;">لا توجد أسعار شحن مضافة.</td></tr>';
+                return;
+            }
+
+            shipping.forEach((s, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.gov}</td>
+                        <td>${s.city}</td>
+                        <td>${s.cost} ج.م</td>
+                        <td><button class="btn btn-danger" onclick="deleteShipping(${index})">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteShipping(index) {
+            const shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            shipping.splice(index, 1);
+            localStorage.setItem('fahood_shipping', JSON.stringify(shipping));
+            loadShipping();
+        }
+
+        // تحميل طلبات العملاء
+        function loadOrders() {
+            const orders = JSON.parse(localStorage.getItem('fahood_orders')) || [];
+            const tbody = document.querySelector('#ordersTable tbody');
+            tbody.innerHTML = '';
+
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="color: #777;">لا توجد طلبات واردة حتى الآن.</td></tr>';
+                return;
+            }
+
+            orders.forEach((o, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${o.date || 'حديث'}</td>
+                        <td><strong>${o.name}</strong></td>
+                        <td>${o.product} (${o.quantity || 1} قطعة) - الإجمالي: ${o.totalPrice} ج.م</td>
+                        <td>${o.address}</td>
+                        <td>هاتف: ${o.phone} <br>واتساب: ${o.whatsapp || o.phone}</td>
+                        <td><button class="btn btn-danger" onclick="deleteOrder(${index})">حذف الطلب</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteOrder(index) {
+            if (confirm('هل تريد حذف هذا الطلب؟')) {
+                const orders = JSON.parse(localStorage.getItem('fahood_orders')) || [];
+                orders.splice(index, 1);
+                localStorage.setItem('fahood_orders', JSON.stringify(orders));
+                loadOrders();
+            }
+        }
+
+        // تشغيل الوظائف عند التحميل
+        loadAdminProducts();
+        loadShipping();
+        loadOrders();
+    </script>
+</body>
 </html>
