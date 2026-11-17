@@ -183,13 +183,54 @@
             <button type="submit" class="btn-main">إضافة ونشر المنتج في المتجر</button>
         </form>
     </div>
-    <script>
+<script>
 document.getElementById('productForm').addEventListener('submit', function(e) {
-    // باقي كود حفظ المنتج القديم هنا...
+    e.preventDefault();
+
+    const name = document.getElementById('productName').value;
+    const price = document.getElementById('productPrice').value;
     const oldPrice = document.getElementById('oldProductPrice').value;
-    // التأكد من حفظ السعر القديم مع باقي بيانات المنتج
+    const colors = document.getElementById('productColors').value;
+    const imageFiles = document.getElementById('productImages').files;
+
+    if (imageFiles.length === 0) {
+        alert('الرجاء اختيار صورة واحدة على الأقل للمنتج!');
+        return;
+    }
+
+    let imagesData = [];
+    let processedCount = 0;
+
+    for (let i = 0; i < imageFiles.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            imagesData.push(event.target.result);
+            processedCount++;
+
+            if (processedCount === imageFiles.length) {
+                const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+                
+                const newProduct = {
+                    name: name,
+                    price: price,
+                    oldPrice: oldPrice,
+                    colors: colors,
+                    images: imagesData,
+                    image: imagesData[0]
+                };
+
+                products.push(newProduct);
+                localStorage.setItem('fahood_products', JSON.stringify(products));
+
+                alert('تم إضافة المنتج بنجاح!');
+                window.location.href = 'index.html';
+            }
+        };
+        reader.readAsDataURL(imageFiles[i]);
+    }
 });
 </script>
+
 
     <!-- جدول إدارة المنتجات -->
     <div class="table-section">
