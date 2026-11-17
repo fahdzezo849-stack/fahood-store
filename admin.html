@@ -5,121 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم | فهد ستور</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #0b0b0b;
-            color: #e0e0e0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: #fff;
-            margin-bottom: 30px;
-            font-size: 28px;
-            letter-spacing: 2px;
-        }
-        .section-box {
-            background: #141414;
-            border: 1px solid #222;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-        .section-box h2 {
-            color: #e5e5e5;
-            font-size: 20px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #222;
-            padding-bottom: 10px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: #aaa;
-            font-size: 14px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 11px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: #fff;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        .btn {
-            background: #e5e5e5;
-            color: #000;
-            border: none;
-            padding: 12px 25px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 14px;
-        }
-        .btn:hover {
-            background: #fff;
-        }
-        .btn-danger {
-            background: #ef4444;
-            color: #fff;
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-        /* شبكة المنتجات المعروضة */
-        .products-admin-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-        }
-        .admin-product-card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .admin-product-card img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-        /* جدول الطلبات والشحن */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        th, td {
-            border: 1px solid #222;
-            padding: 12px;
-            text-align: center;
-        }
-        th {
-            background: #1a1a1a;
-            color: #e5e5e5;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b0b0b; color: #e0e0e0; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { text-align: center; color: #fff; margin-bottom: 30px; font-size: 28px; letter-spacing: 2px; }
+        .section-box { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+        .section-box h2 { color: #e5e5e5; font-size: 20px; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; color: #aaa; font-size: 14px; }
+        .form-group input, .form-group select { width: 100%; padding: 11px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 14px; }
+        .btn { background: #e5e5e5; color: #000; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 14px; }
+        .btn:hover { background: #fff; }
+        .btn-danger { background: #ef4444; color: #fff; padding: 6px 12px; font-size: 12px; }
+        .btn-danger:hover { background: #dc2626; }
+        .products-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .admin-product-card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        .admin-product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { border: 1px solid #222; padding: 12px; text-align: center; }
+        th { background: #1a1a1a; color: #e5e5e5; }
     </style>
 </head>
 <body>
@@ -127,7 +31,21 @@
     <div class="container">
         <h1>إدارة المتجر | Admin Panel</h1>
 
-        <!-- 1. إضافة منتج جديد (مطابق لرسمة الكشكول) -->
+        <!-- 1. إعدادات الدفع وخدمة العملاء (فودافون كاش وإنستا باي) -->
+        <div class="section-box">
+            <h2>إعدادات الدفع (فودافون كاش وإنستا باي)</h2>
+            <div class="form-group">
+                <label>رقم فودافون كاش:</label>
+                <input type="text" id="adminVodafone" placeholder="مثال: 01014189013">
+            </div>
+            <div class="form-group">
+                <label>حساب إنستا باي (InstaPay):</label>
+                <input type="text" id="adminInstapay" placeholder="مثال: username@instapay">
+            </div>
+            <button type="button" class="btn" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
+        </div>
+
+        <!-- 2. إضافة منتج جديد -->
         <div class="section-box">
             <h2>إضافة منتج جديد</h2>
             <form id="addProductForm" onsubmit="saveProduct(event)">
@@ -158,17 +76,15 @@
             </form>
         </div>
 
-        <!-- 2. المنتجات المعروضة حالياً (تعديل السعر والحذف) -->
+        <!-- 3. المنتجات المعروضة حالياً -->
         <div class="section-box">
             <h2>المنتجات المعروضة حالياً</h2>
-            <div class="products-admin-grid" id="adminProductsGrid">
-                <!-- المنتجات هتظهر هنا كاردات -->
-            </div>
+            <div class="products-admin-grid" id="adminProductsGrid"></div>
         </div>
 
-        <!-- 3. إدارة أسعار الشحن (المحافظة، المركز/المدينة، رسوم الشحن) -->
+        <!-- 4. إدارة أسعار الشحن -->
         <div class="section-box">
-            <h2>إدارة أسعار الشحن</h2>
+            <h2>إدارة أسعار الشحن للمحافظات</h2>
             <div class="form-group">
                 <label>المحافظة:</label>
                 <input type="text" id="shipGov" placeholder="مثال: الشرقية">
@@ -196,17 +112,18 @@
             </table>
         </div>
 
-        <!-- 4. طلبات العملاء الواردة بالموقع -->
+        <!-- 5. طلبات العملاء الواردة -->
         <div class="section-box">
             <h2>طلبات العملاء الواردة بالموقع</h2>
             <div style="overflow-x: auto;">
                 <table id="ordersTable">
                     <thead>
                         <tr>
-                            <th>رقم الطلب / التاريخ</th>
+                            <th>التاريخ</th>
                             <th>اسم العميل</th>
                             <th>المنتج المطلوب</th>
-                            <th>العنوان</th>
+                            <th>طريقة الدفع</th>
+                            <th>العنوان والشحن</th>
                             <th>الهاتف والواتساب</th>
                             <th>إجراء</th>
                         </tr>
@@ -219,7 +136,22 @@
     </div>
 
     <script>
-        // حفظ منتج جديد مع دعم صور متعددة
+        // حفظ إعدادات الدفع
+        function savePaymentSettings() {
+            const vodafone = document.getElementById('adminVodafone').value.trim();
+            const instapay = document.getElementById('adminInstapay').value.trim();
+            
+            localStorage.setItem('fahood_vodafone', vodafone || '01014189013');
+            localStorage.setItem('fahood_instapay', instapay || 'fahood@instapay');
+            alert('تم حفظ إعدادات الدفع بنجاح!');
+        }
+
+        function loadPaymentSettings() {
+            document.getElementById('adminVodafone').value = localStorage.getItem('fahood_vodafone') || '01014189013';
+            document.getElementById('adminInstapay').value = localStorage.getItem('fahood_instapay') || 'fahood@instapay';
+        }
+
+        // حفظ منتج جديد
         function saveProduct(e) {
             e.preventDefault();
             const name = document.getElementById('prodName').value;
@@ -244,13 +176,7 @@
                     loaded++;
                     if (loaded === files.length) {
                         const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
-                        products.push({
-                            name: name,
-                            price: price,
-                            category: category,
-                            colors: colors,
-                            images: imagesBase64
-                        });
+                        products.push({ name, price, category, colors, images: imagesBase64 });
                         localStorage.setItem('fahood_products', JSON.stringify(products));
                         alert('تم إضافة المنتج بنجاح!');
                         document.getElementById('addProductForm').reset();
@@ -261,7 +187,6 @@
             });
         }
 
-        // عرض المنتجات في لوحة التحكم مع إمكانية التعديل والحذف
         function loadAdminProducts() {
             const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
             const grid = document.getElementById('adminProductsGrid');
@@ -311,7 +236,7 @@
             }
         }
 
-        // حفظ أسعار الشحن
+        // إدارة الشحن
         function saveShipping() {
             const gov = document.getElementById('shipGov').value.trim();
             const city = document.getElementById('shipCity').value.trim();
@@ -322,15 +247,15 @@
                 return;
             }
 
-            const shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
-            shipping.push({ gov, city: city || 'كل المراكز', cost });
+            let shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            shipping.push({ gov, city: city || 'عام', cost });
             localStorage.setItem('fahood_shipping', JSON.stringify(shipping));
 
             document.getElementById('shipGov').value = '';
             document.getElementById('shipCity').value = '';
             document.getElementById('shipCost').value = '';
             loadShipping();
-            alert('\nتم حفظ سعر الشحن بنجاح!');
+            alert('تم حفظ سعر الشحن بنجاح!');
         }
 
         function loadShipping() {
@@ -356,20 +281,20 @@
         }
 
         function deleteShipping(index) {
-            const shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            let shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
             shipping.splice(index, 1);
             localStorage.setItem('fahood_shipping', JSON.stringify(shipping));
             loadShipping();
         }
 
-        // تحميل طلبات العملاء
+        // تحميل الطلبات
         function loadOrders() {
             const orders = JSON.parse(localStorage.getItem('fahood_orders')) || [];
             const tbody = document.querySelector('#ordersTable tbody');
             tbody.innerHTML = '';
 
             if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="color: #777;">لا توجد طلبات واردة حتى الآن.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="color: #777;">لا توجد طلبات واردة حتى الآن.</td></tr>';
                 return;
             }
 
@@ -378,10 +303,11 @@
                     <tr>
                         <td>${o.date || 'حديث'}</td>
                         <td><strong>${o.name}</strong></td>
-                        <td>${o.product} (${o.quantity || 1} قطعة) - الإجمالي: ${o.totalPrice} ج.م</td>
+                        <td>${o.product} (${o.quantity || 1} ق) - الإجمالي: ${o.totalPrice} ج.م</td>
+                        <td><strong style="color: #4ade80;">${o.paymentMethod}</strong></td>
                         <td>${o.address}</td>
                         <td>هاتف: ${o.phone} <br>واتساب: ${o.whatsapp || o.phone}</td>
-                        <td><button class="btn btn-danger" onclick="deleteOrder(${index})">حذف الطلب</button></td>
+                        <td><button class="btn btn-danger" onclick="deleteOrder(${index})">حذف</button></td>
                     </tr>
                 `;
             });
@@ -396,7 +322,7 @@
             }
         }
 
-        // تشغيل الوظائف عند التحميل
+        loadPaymentSettings();
         loadAdminProducts();
         loadShipping();
         loadOrders();
