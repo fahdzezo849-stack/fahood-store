@@ -430,18 +430,30 @@
 
             products.forEach((product, index) => {
                 storeGrid.innerHTML += `
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}">
-                        <div class="product-info">
-                            <h3>${product.name}</h3>
-                            <div class="price">${product.price} جنيه</div>
-                            <div class="colors">الألوان المتاحة: ${product.colors}</div>
-                            <button class="btn-order" onclick="openOrderModal(${index})">اطلب الآن</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+        <div class="product-card">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <div class="price">
+                    ${product.oldPrice ? `<span class="old-price">${product.oldPrice} ج.م</span>` : ''}
+                    <span>${product.price} ج.م</span>
+                </div>
+                <div class="colors">
+                    <label>اختر اللون / الشكل:</label>
+                    <select id="color-${index}" style="width: 100%; padding: 5px; margin: 5px 0;">
+                        ${product.colors ? product.colors.split(',').map(c => `<option value="${c.trim()}">${c.trim()}</option>`).join('') : '<option value="الأساسي">الأساسي</option>'}
+                    </select>
+                </div>
+                <div class="quantity" style="margin: 5px 0;">
+                    <label>الكمية:</label>
+                    <input type="number" id="qty-${index}" value="1" min="1" style="width: 100%; padding: 5px;">
+                </div>
+                <button class="btn-order" onclick="openOrderModal(${index})">اطلب الآن</button>
+            </div>
+        </div>
+    `;
+
+
 
         function scrollToProducts() {
             document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
