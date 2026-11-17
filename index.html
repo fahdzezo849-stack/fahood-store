@@ -499,6 +499,61 @@
         });
 
         loadStore();
+        // أكواد الخصم المعتمدة في المتجر
+const validPromoCodes = {
+    "FAHOOD111": 0.20, // خصم 20%
+    "EGY20": 0.10,     // خصم 10%
+    "JAC20": 0.15      // خصم 15%
+};
+
+let appliedDiscountRate = 0; // نسبة الخصم الحالية
+
+function applyPromoCode() {
+    const inputElement = document.getElementById('promoCodeInput');
+    const msgElement = document.getElementById('discountMsg');
+    if (!inputElement || !msgElement) return;
+
+    const code = inputElement.value.trim().toUpperCase();
+
+    if (validPromoCodes[code] !== undefined) {
+        appliedDiscountRate = validPromoCodes[code];
+        msgElement.style.color = "green";
+        msgElement.innerText = `تم تطبيق خصم (${appliedDiscountRate * 100}%) بنجاح! 🎉`;
+    } else if (code === "") {
+        appliedDiscountRate = 0;
+        msgElement.innerText = "";
+    } else {
+        appliedDiscountRate = 0;
+        msgElement.style.color = "red";
+        msgElement.innerText = "كود الخصم غير صحيح.";
+    }
+    
+    // تحديث الحسابات فوراً بعد تطبيق الكود
+    updateCartTotal();
+}
+
+// دالة تحديث الإجمالي والأسعار (قبل وبعد الخصم)
+function updateCartTotal() {
+    let subtotal = typeof cartSubtotal !== 'undefined' ? cartSubtotal : 500; 
+    let shippingCost = typeof currentShippingCost !== 'undefined' ? currentShippingCost : 50; 
+
+    let discountValue = subtotal * appliedDiscountRate;
+    let finalTotal = (subtotal - discountValue) + shippingCost;
+
+    // عرض القيم في HTML
+    document.getElementById('subtotalAmount').innerText = subtotal + " جنيه";
+    
+    if (appliedDiscountRate > 0) {
+        document.getElementById('discountAmount').innerText = "-" + discountValue + " جنيه";
+        document.getElementById('oldTotalPrice').style.display = "inline";
+        document.getElementById('oldTotalPrice').innerText = (subtotal + shippingCost) + " جنيه";
+    } else {
+        document.getElementById('oldTotalPrice').style.display = "none";
+    }
+
+    document.getElementById('finalTotalPrice').innerText = finalTotal + " جنيه";
+}
+
     </script>
 <a href="https://wa.me/201014189013?text=مرحباً، أريد الاستفسار عن مشكلة في طلبي بمتجر فهود" target="_blank" style="position: fixed; bottom: 20px; left: 20px; background-color: #25d366; color: white; border-radius: 50px; padding: 12px 20px; font-size: 15px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999;">💬 خدمة العملاء واتساب</a>
 
