@@ -364,6 +364,46 @@
         <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">صورة إيصال التحويل (إن وجد):</label>
         <input type="file" id="transfer-screenshot" accept="image/*" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
     </div>
+<!-- صندوق الفاتورة وأكواد الخصم -->
+<div style="background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 20px;">
+    <h3 style="margin-bottom: 10px; font-size: 16px;">ملخص الطلب</h3>
+    
+    <!-- خانة كود الخصم -->
+    <div style="margin-bottom: 15px;">
+        <label style="font-size: 13px; display: block; margin-bottom: 5px; font-weight: bold;">عندك كود خصم؟</label>
+        <div style="display: flex; gap: 5px;">
+            <input type="text" id="promoCodeInput" placeholder="اكتب الكود هنا..." style="flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+            <button type="button" onclick="applyPromoCode()" style="background: #333; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">تطبيق</button>
+        </div>
+        <small id="discountMsg" style="display: block; margin-top: 4px; font-weight: bold;"></small>
+    </div>
+
+    <!-- تفاصيل الأسعار -->
+    <div style="border-top: 1px solid #eee; padding-top: 10px; font-size: 14px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>إجمالي المنتجات:</span>
+            <span id="subtotalAmount">0 جنيه</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px; color: #28a745;" id="discountRow" style="display:none;">
+            <span>قيمة الخصم:</span>
+            <span id="discountAmount">0 جنيه</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>الشحن:</span>
+            <span id="shippingAmount">0 جنيه</span>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 8px 0;">
+        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px;">
+            <span>الإجمالي النهائي:</span>
+            <div>
+                <!-- السعر قبل الخصم (مشطوب لو فيه خصم) -->
+                <del id="oldTotalPrice" style="color: #888; font-size: 13px; margin-left: 5px; display: none;"></del>
+                <!-- السعر بعد الخصم -->
+                <span id="finalTotalPrice" style="color: #e63946;">0 جنيه</span>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <button type="submit" class="btn-order">تأكيد الطلب الآن</button>
             </form>
