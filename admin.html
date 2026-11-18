@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | فهد ستور</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b0b0b; color: #e0e0e0; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { text-align: center; color: #fff; margin-bottom: 30px; font-size: 28px; letter-spacing: 2px; }
+        .section-box { background: #141414; border: 1px solid #222; border-radius: 12px; padding: 25px; margin-bottom: 30px; }
+        .section-box h2 { color: #e5e5e5; font-size: 20px; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; color: #aaa; font-size: 14px; }
+        .form-group input, .form-group select { width: 100%; padding: 11px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 14px; }
+        .btn { background: #e5e5e5; color: #000; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 14px; }
+        .btn:hover { background: #fff; }
+        .btn-danger { background: #ef4444; color: #fff; padding: 6px 12px; font-size: 12px; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-info { background: #3b82f6; color: #fff; padding: 6px 12px; font-size: 12px; margin-bottom: 5px; display: inline-block; }
+        .btn-info:hover { background: #2563eb; }
+        .products-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .admin-product-card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        .admin-product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { border: 1px solid #222; padding: 12px; text-align: center; }
+        th { background: #1a1a1a; color: #e5e5e5; }
+        /* نافذة معاينة الإيصال */
+        .receipt-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.88);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .receipt-modal img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 10px;
+            border: 2px solid #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>إدارة المتجر | Admin Panel</h1>
+
+        <!-- 1. إعدادات الدفع وخدمة العملاء (فودافون كاش وإنستا باي) -->
+        <div class="section-box">
+            <h2>إعدادات الدفع (فودافون كاش وإنستا باي)</h2>
+            <div class="form-group">
+                <label>رقم فودافون كاش (يُستخدم أيضاً لزر الواتساب):</label>
+                <input type="text" id="adminVodafone" placeholder="مثال: 01014189013">
+            </div>
+            <div class="form-group">
+                <label>حساب إنستا باي (InstaPay):</label>
+                <input type="text" id="adminInstapay" placeholder="مثال: username@instapay">
+            </div>
+            <button type="button" class="btn" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
+        </div>
+
+        <!-- 2. إضافة منتج جديد -->
+        <div class="section-box">
+            <h2>إضافة منتج جديد</h2>
+            <form id="addProductForm" onsubmit="saveProduct(event)">
+                <div class="form-group">
+                    <label>اسم المنتج:</label>
+                    <input type="text" id="prodName" required placeholder="أدخل اسم المنتج...">
+                </div>
+                <div class="form-group">
+                    <label>السعر بالجنيه (ج.م):</label>
+                    <input type="number" id="prodPrice" required placeholder="مثال: 350">
+                </div>
+                <div class="form-group">
+                    <label>القسم:</label>
+                    <select id="prodCategory">
+                        <option value="رجال">رجال</option>
+                        <option value="نساء">نساء</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ألوان المنتج (مفصولة بفاصلة ,):</label>
+                    <input type="text" id="prodColors" placeholder="أسود, فضي, كحلي">
+                </div>
+                <div class="form-group">
+                    <label>صورة المنتج (يمكنك تحديد أكثر من صورة):</label>
+                    <input type="file" id="prodImages" accept="image/*" multiple required>
+                </div>
+                <button type="submit" class="btn">إضافة المنتج للمتجر</button>
+            </form>
+        </div>
+
+        <!-- 3. المنتجات المعروضة حالياً -->
+        <div class="section-box">
+            <h2>المنتجات المعروضة حالياً</h2>
+            <div class="products-admin-grid" id="adminProductsGrid"></div>
+        </div>
+
+        <!-- 4. إدارة أسعار الشحن -->
+        <div class="section-box">
+            <h2>إدارة أسعار الشحن للمحافظات</h2>
+            <div class="form-group">
+                <label>المحافظة:</label>
+                <input type="text" id="shipGov" placeholder="مثال: الشرقية">
+            </div>
+            <div class="form-group">
+                <label>المركز / المدينة:</label>
+                <input type="text" id="shipCity" placeholder="مثال: الزقازيق">
+            </div>
+            <div class="form-group">
+                <label>رسوم الشحن (ج.م):</label>
+                <input type="number" id="shipCost" placeholder="مثال: 50">
+            </div>
+            <button type="button" class="btn" onclick="saveShipping()">حفظ سعر الشحن</button>
+            
+            <table style="margin-top: 20px;" id="shippingTable">
+                <thead>
+                    <tr>
+                        <th>المحافظة</th>
+                        <th>المركز / المدينة</th>
+                        <th>رسوم الشحن</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- 5. طلبات العملاء الواردة -->
+        <div class="section-box">
+            <h2>طلبات العملاء الواردة بالموقع</h2>
+            <div style="overflow-x: auto;">
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>اسم العميل</th>
+                            <th>المنتج المطلوب</th>
+                            <th>طريقة الدفع</th>
+                            <th>العنوان والشحن</th>
+                            <th>الهاتف والواتساب</th>
+                            <th>إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- نافذة معاينة صورة الإيصال -->
+    <div id="receiptModal" class="receipt-modal" onclick="this.style.display='none'">
+        <img id="receiptPreviewImg" src="" alt="إيصال التحويل">
+    </div>
+
+    <script>
+        // حفظ إعدادات الدفع
+        function savePaymentSettings() {
+            const vodafone = document.getElementById('adminVodafone').value.trim();
+            const instapay = document.getElementById('adminInstapay').value.trim();
+            
+            localStorage.setItem('fahood_vodafone', vodafone || '01014189013');
+            localStorage.setItem('fahood_instapay', instapay || 'fahood@instapay');
+            alert('تم حفظ إعدادات الدفع بنجاح!');
+        }
+
+        function loadPaymentSettings() {
+            document.getElementById('adminVodafone').value = localStorage.getItem('fahood_vodafone') || '01014189013';
+            document.getElementById('adminInstapay').value = localStorage.getItem('fahood_instapay') || 'fahood@instapay';
+        }
+
+        // حفظ منتج جديد
+        function saveProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('prodName').value;
+            const price = document.getElementById('prodPrice').value;
+            const category = document.getElementById('prodCategory').value;
+            const colors = document.getElementById('prodColors').value;
+            const fileInput = document.getElementById('prodImages');
+
+            if (fileInput.files.length === 0) {
+                alert('اختر صورة واحدة على الأقل!');
+                return;
+            }
+
+            const files = Array.from(fileInput.files);
+            let loaded = 0;
+            let imagesBase64 = [];
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    imagesBase64[index] = evt.target.result;
+                    loaded++;
+                    if (loaded === files.length) {
+                        const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+                        products.push({ name, price, category, colors, images: imagesBase64 });
+                        localStorage.setItem('fahood_products', JSON.stringify(products));
+                        alert('تم إضافة المنتج بنجاح!');
+                        document.getElementById('addProductForm').reset();
+                        loadAdminProducts();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function loadAdminProducts() {
+            const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+            const grid = document.getElementById('adminProductsGrid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="color: #777; grid-column: 1/-1; text-align: center;">لا توجد منتجات مضافة حالياً.</p>';
+                return;
+            }
+
+            products.forEach((p, index) => {
+                let mainImg = p.images && p.images.length > 0 ? p.images[0] : p.image;
+                grid.innerHTML += `
+                    <div class="admin-product-card">
+                        <div>
+                            <img src="${mainImg}">
+                            <h3 style="font-size: 15px; margin-bottom: 5px; color: #fff;">${p.name}</h3>
+                            <p style="color: #e5e5e5; font-weight: bold; margin-bottom: 10px;">${p.price} ج.م</p>
+                            <p style="color: #888; font-size: 12px; margin-bottom: 10px;">القسم: ${p.category}</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn" style="flex: 1; padding: 6px; font-size: 12px;" onclick="editPrice(${index})">تعديل السعر</button>
+                            <button class="btn btn-danger" onclick="deleteProduct(${index})">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function editPrice(index) {
+            const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+            const newPrice = prompt('أدخل السعر الجديد بالجنيه:', products[index].price);
+            if (newPrice !== null && newPrice.trim() !== '') {
+                products[index].price = newPrice;
+                localStorage.setItem('fahood_products', JSON.stringify(products));
+                loadAdminProducts();
+                alert('تم تحديث السعر بنجاح!');
+            }
+        }
+
+        function deleteProduct(index) {
+            if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                const products = JSON.parse(localStorage.getItem('fahood_products')) || [];
+                products.splice(index, 1);
+                localStorage.setItem('fahood_products', JSON.stringify(products));
+                loadAdminProducts();
+            }
+        }
+
+        // إدارة الشحن
+        function saveShipping() {
+            const gov = document.getElementById('shipGov').value.trim();
+            const city = document.getElementById('shipCity').value.trim();
+            const cost = document.getElementById('shipCost').value.trim();
+
+            if (!gov || !cost) {
+                alert('من فضلك أدخل المحافظة وسعر الشحن على الأقل!');
+                return;
+            }
+
+            let shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            shipping.push({ gov, city: city || 'عام', cost });
+            localStorage.setItem('fahood_shipping', JSON.stringify(shipping));
+
+            document.getElementById('shipGov').value = '';
+            document.getElementById('shipCity').value = '';
+            document.getElementById('shipCost').value = '';
+            loadShipping();
+            alert('تم حفظ سعر الشحن بنجاح!');
+        }
+
+        function loadShipping() {
+            const shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            const tbody = document.querySelector('#shippingTable tbody');
+            tbody.innerHTML = '';
+
+            if (shipping.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="color: #777;">لا توجد أسعار شحن مضافة.</td></tr>';
+                return;
+            }
+
+            shipping.forEach((s, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.gov}</td>
+                        <td>${s.city}</td>
+                        <td>${s.cost} ج.م</td>
+                        <td><button class="btn btn-danger" onclick="deleteShipping(${index})">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteShipping(index) {
+            let shipping = JSON.parse(localStorage.getItem('fahood_shipping')) || [];
+            shipping.splice(index, 1);
+            localStorage.setItem('fahood_shipping', JSON.stringify(shipping));
+            loadShipping();
+        }
+
+        function viewReceipt(index) {
+            const orders = JSON.parse(localStorage.getItem('fahood_orders')) || [];
+            if (orders[index] && orders[index].receiptImage) {
+                document.getElementById('receiptPreviewImg').src = orders[index].receiptImage;
+                document.getElementById('receiptModal').style.display = 'flex';
+            }
+        }
+
+        // تحميل الطلبات
+        function loadOrders() {
+            const orders = JSON.parse(localStorage.getItem('fahood_orders')) || [];
+            const tbody = document.querySelector('#ordersTable tbody');
+            tbody.innerHTML = '';
+
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="color: #777;">لا توجد طلبات واردة حتى الآن.</td></tr>';
+                return;
+            }
+
+            orders.forEach((o, index) => {
+                const receiptBtn = o.receiptImage 
+                    ? `<br><button class="btn btn-info" onclick="viewReceipt(${index})">عرض الإيصال</button>` 
+                    : '';
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${o.date || 'حديث'}</td>
+                        <td><strong>${o.name}</strong></td>
+                        <td>${o.product} (${o.quantity || 1} ق) - الإجمالي: <strong>${o.totalPrice} ج.م</strong></td>
+                        <td><strong style="color: #4ade80;">${o.paymentMethod}</strong>${receiptBtn}</td>
+                        <td>${o.address}</td>
+                        <td>هاتف: ${o.phone} <br>واتساب: ${o.whatsapp || o.phone}</td>
+                        <td><button class="btn btn-danger" onclick="deleteOrder(${index})">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteOrder(index) {
+            if (confirm('هل تريد حذف هذا الطلب؟')) {
+                const orders = JSON.parse(localStorage.getItem('fahood_orders')) || [];
+                orders.splice(index, 1);
+                localStorage.setItem('fahood_orders', JSON.stringify(orders));
+                loadOrders();
+            }
+        }
+
+        // تحديث تلقائي عند وصول طلبات جديدة من تبويب المتجر
+        window.addEventListener('storage', () => {
+            loadOrders();
+            loadAdminProducts();
+            loadShipping();
+        });
+
+        loadPaymentSettings();
+        loadAdminProducts();
+        loadShipping();
+        loadOrders();
+    </script>
+</body>
+</html>
